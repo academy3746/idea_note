@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:idea_note/features/main_screen/main_screen.dart';
 import 'package:idea_note/features/splash_screen/splash_screen.dart';
 
 void main() {
@@ -22,6 +23,7 @@ class MyNote extends StatelessWidget {
       initialRoute: SplashScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
+        MainScreen.routeName: (context) => const MainScreen(),
       },
     );
   }

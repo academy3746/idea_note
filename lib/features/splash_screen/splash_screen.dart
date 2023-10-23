@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import '../../constants/gaps.dart';
 import '../../constants/sizes.dart';
+import '../main_screen/main_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   static String routeName = "/";
+
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushReplacementNamed(context, MainScreen.routeName);
+    });
+
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(
