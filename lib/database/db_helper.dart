@@ -8,12 +8,13 @@ class DatabaseHelper {
   /// Initialize Database
   Future<void> initDataBase() async {
     // Get Database PATH
-    String dbPath = join(await getDatabasesPath(), "idea_note.db");
+    String dbPath =
+        join(await getDatabasesPath(), "idea_note.db"); // 경로 지정은 명시적...
 
-    // Open Database
+    // Create Database
     database = await openDatabase(dbPath, version: 1,
         onCreate: (Database db, int version) {
-      // Execute Database
+      // Execute Query if table not exists
       db.execute("""
         CREATE TABLE IF NOT EXISTS tb_idea (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
