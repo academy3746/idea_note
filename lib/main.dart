@@ -14,7 +14,7 @@ class MyNote extends StatelessWidget {
     return MaterialApp(
       title: 'Archive Note',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         primaryColor: Colors.deepPurpleAccent,
         useMaterial3: false,
         visualDensity: VisualDensity.adaptivePlatformDensity,

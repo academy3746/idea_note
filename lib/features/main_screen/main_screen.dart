@@ -1,4 +1,8 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:idea_note/constants/sizes.dart';
 
 class MainScreen extends StatefulWidget {
@@ -22,23 +26,117 @@ class _MainScreenState extends State<MainScreen> {
           "Archive Note",
           style: TextStyle(
             color: Colors.black,
-            fontSize: Sizes.size36,
+            fontSize: Sizes.size32,
             fontWeight: FontWeight.bold,
           ),
         ),
       ),
-      body: const SingleChildScrollView(
-        physics: ClampingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.all(
-            Sizes.size24,
+      body: Padding(
+        padding: const EdgeInsets.all(
+          Sizes.size20,
+        ),
+        child: ListView.builder(
+          itemCount: 12,
+          itemBuilder: (BuildContext context, int index) {
+            return listItem(index);
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          print("Post Button Pressed!");
+        },
+        backgroundColor: Theme.of(context).primaryColor.withOpacity(0.7),
+        child: Image.asset(
+          "assets/images/floating_btn.png",
+          height: Sizes.size44,
+          width: Sizes.size44,
+        ),
+      ),
+    );
+  }
+
+  Widget listItem(int index) {
+    return Padding(
+      padding: const EdgeInsets.only(
+        top: Sizes.size20,
+      ),
+      child: Container(
+        height: Sizes.size80 + Sizes.size2,
+        decoration: ShapeDecoration(
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: Colors.grey.shade300,
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(
+              Sizes.size10,
+            ),
           ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text("SEX!"),
-            ],
-          ),
+        ),
+        child: Stack(
+          alignment: Alignment.centerLeft,
+          children: [
+            /// title
+            const Padding(
+              padding: EdgeInsets.only(
+                left: Sizes.size16,
+                bottom: Sizes.size16,
+              ),
+              child: Text(
+                "# Flutter를 이용한 크로스플랫폼 앱 만들기",
+                style: TextStyle(
+                  fontSize: Sizes.size16,
+                ),
+              ),
+            ),
+
+            /// regDate
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  bottom: Sizes.size8,
+                  right: Sizes.size16,
+                ),
+                child: Text(
+                  "2023. 10. 23 23:15",
+                  style: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: Sizes.size10,
+                  ),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  bottom: Sizes.size8,
+                  left: Sizes.size16,
+                ),
+                child: RatingBar.builder(
+                  itemBuilder: (BuildContext context, int index) {
+                    return const FaIcon(
+                      FontAwesomeIcons.star,
+                      color: Colors.amber,
+                    );
+                  },
+                  direction: Axis.horizontal,
+                  itemSize: Sizes.size16,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.symmetric(
+                    horizontal: 0,
+                  ),
+                  initialRating: 3,
+                  minRating: 1,
+                  onRatingUpdate: (double value) {},
+                  ignoreGestures: true,
+                  updateOnDrag: false,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
