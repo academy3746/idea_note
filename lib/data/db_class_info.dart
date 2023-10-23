@@ -1,5 +1,5 @@
 class IdeaInfo {
-  int? id; // Index
+  int? id; // Index (PK)
   String title; // 아이디어 제목
   String motive; // 아이디어 작성 계기
   String content; // 아이디어 내용
@@ -30,7 +30,7 @@ class IdeaInfo {
     };
   }
 
-  /// Caching returned data from MAP
+  /// Encoding & Caching returned data from MAP to CLASS
   factory IdeaInfo.fromMap(Map<String, dynamic> map) {
     return IdeaInfo(
       id: map["id"],
