@@ -11,10 +11,6 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  void _keyBoardOnFocus() {
-    FocusScope.of(context).unfocus();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,20 +27,17 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ),
-      body: GestureDetector(
-        onTap: _keyBoardOnFocus,
-        child: const SingleChildScrollView(
-          physics: ClampingScrollPhysics(),
-          child: Padding(
-            padding: EdgeInsets.all(
-              Sizes.size24,
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text("SEX!"),
-              ],
-            ),
+      body: const SingleChildScrollView(
+        physics: ClampingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.all(
+            Sizes.size24,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text("SEX!"),
+            ],
           ),
         ),
       ),
