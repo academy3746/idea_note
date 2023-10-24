@@ -1,9 +1,12 @@
 // ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:idea_note/constants/sizes.dart';
+import 'package:idea_note/database/db_helper.dart';
+import 'package:intl/intl.dart';
+
+import '../../data/db_class_info.dart';
 
 class MainScreen extends StatefulWidget {
   static String routeName = "/main";
@@ -15,6 +18,27 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  /// Initialize Database
+  var dbHelper = DatabaseHelper();
+  List<IdeaInfo> listIdeaInfo = [];
+
+  /// Read Database
+  /// SELECT * FROM `tb_idea` WHERE (1) ORDER BY regDate DESC
+  Future<void> _getIdeaInfo() async {
+    await dbHelper.initDataBase();
+    listIdeaInfo = await dbHelper.selectDatabase();
+    listIdeaInfo.sort(
+      (a, b) => b.regDate.compareTo(a.regDate),
+    );
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getIdeaInfo();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +60,7 @@ class _MainScreenState extends State<MainScreen> {
           Sizes.size20,
         ),
         child: ListView.builder(
-          itemCount: 12,
+          itemCount: listIdeaInfo.length,
           itemBuilder: (BuildContext context, int index) {
             return listItem(index);
           },
@@ -78,14 +102,14 @@ class _MainScreenState extends State<MainScreen> {
           alignment: Alignment.centerLeft,
           children: [
             /// title
-            const Padding(
-              padding: EdgeInsets.only(
+            Padding(
+              padding: const EdgeInsets.only(
                 left: Sizes.size16,
                 bottom: Sizes.size16,
               ),
               child: Text(
-                "# Flutter를 이용한 크로스플랫폼 앱 만들기",
-                style: TextStyle(
+                "# ${listIdeaInfo[index].title}",
+                style: const TextStyle(
                   fontSize: Sizes.size16,
                 ),
               ),
@@ -100,7 +124,10 @@ class _MainScreenState extends State<MainScreen> {
                   right: Sizes.size16,
                 ),
                 child: Text(
-                  "2023. 10. 23 23:15",
+                  DateFormat("yyyy.MM.dd HH:mm").format(
+                    DateTime.fromMillisecondsSinceEpoch(
+                        listIdeaInfo[index].regDate),
+                  ),
                   style: TextStyle(
                     color: Colors.grey.shade400,
                     fontSize: Sizes.size10,
@@ -108,6 +135,8 @@ class _MainScreenState extends State<MainScreen> {
                 ),
               ),
             ),
+
+            /// importance
             Align(
               alignment: Alignment.bottomLeft,
               child: Padding(
@@ -128,11 +157,11 @@ class _MainScreenState extends State<MainScreen> {
                   itemPadding: const EdgeInsets.symmetric(
                     horizontal: 0,
                   ),
-                  initialRating: 3,
+                  initialRating: listIdeaInfo[index].importance.toDouble(),
                   minRating: 1,
                   onRatingUpdate: (double value) {},
-                  ignoreGestures: true,
-                  updateOnDrag: false,
+                  ignoreGestures: false,
+                  updateOnDrag: true,
                 ),
               ),
             ),

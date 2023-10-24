@@ -5,7 +5,7 @@ class IdeaInfo {
   String content; // 아이디어 내용
   int importance; // 아이디어 중요도 점수
   String feedBack; // 유저 피드백
-  DateTime regDate; // 게시글 생성 일자
+  int regDate; // 게시글 생성 일자
 
   IdeaInfo({
     this.id,
