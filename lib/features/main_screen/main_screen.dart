@@ -4,8 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:idea_note/constants/sizes.dart';
 import 'package:idea_note/database/db_helper.dart';
+import 'package:idea_note/features/post_screen/edit_screen.dart';
 import 'package:intl/intl.dart';
-
 import '../../data/db_class_info.dart';
 
 class MainScreen extends StatefulWidget {
@@ -31,6 +31,10 @@ class _MainScreenState extends State<MainScreen> {
       (a, b) => b.regDate.compareTo(a.regDate),
     );
     setState(() {});
+  }
+
+  void _pushToEditScreen() {
+    Navigator.pushNamed(context, EditScreen.routeName);
   }
 
   @override
@@ -68,7 +72,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          print("Post Button Pressed!");
+          _pushToEditScreen();
         },
         backgroundColor: Theme.of(context).primaryColor.withOpacity(0.7),
         child: Image.asset(
@@ -160,8 +164,8 @@ class _MainScreenState extends State<MainScreen> {
                   initialRating: listIdeaInfo[index].importance.toDouble(),
                   minRating: 1,
                   onRatingUpdate: (double value) {},
-                  ignoreGestures: false,
-                  updateOnDrag: true,
+                  ignoreGestures: true,
+                  updateOnDrag: false,
                 ),
               ),
             ),

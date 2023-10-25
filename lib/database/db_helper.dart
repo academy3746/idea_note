@@ -11,7 +11,7 @@ class DatabaseHelper {
     String dbPath =
         join(await getDatabasesPath(), "idea_note.db"); // 경로 지정은 명시적...
 
-    // Create Database
+    // Initialize Database
     database = await openDatabase(dbPath, version: 1,
         onCreate: (Database db, int version) {
       // Execute Query if table not exists
