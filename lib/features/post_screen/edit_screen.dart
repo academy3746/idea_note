@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:idea_note/constants/gaps.dart';
 import 'package:idea_note/data/db_class_info.dart';
 import 'package:idea_note/database/db_helper.dart';
-
 import '../../constants/sizes.dart';
 
+//ignore: must_be_immutable
 class EditScreen extends StatefulWidget {
   static String routeName = "/edit";
+
   IdeaInfo? ideaInfo;
 
   EditScreen({super.key, this.ideaInfo});
@@ -73,6 +74,38 @@ class _EditScreenState extends State<EditScreen> {
     _motiveEditingController;
     _contentEditingController;
     _feedBackEditingController;
+
+    if (widget.ideaInfo != null) {
+      // Load TextField Instances
+      _titleEditingController.text = widget.ideaInfo!.title;
+      _motiveEditingController.text = widget.ideaInfo!.motive;
+      _contentEditingController.text = widget.ideaInfo!.content;
+
+      if (widget.ideaInfo!.feedBack.isNotEmpty) {
+        _feedBackEditingController.text = widget.ideaInfo!.feedBack;
+      }
+
+      // Load Importance Instance
+      _initClickStatus();
+      switch (widget.ideaInfo!.importance) {
+        case 1:
+          isClicked01 = true;
+          break;
+        case 2:
+          isClicked02 = true;
+          break;
+        case 3:
+          isClicked03 = true;
+          break;
+        case 4:
+          isClicked04 = true;
+          break;
+        case 5:
+          isClicked05 = true;
+          break;
+      }
+      importancePoint = widget.ideaInfo!.importance;
+    }
   }
 
   @override
@@ -99,9 +132,9 @@ class _EditScreenState extends State<EditScreen> {
             size: Sizes.size24,
           ),
         ),
-        title: const Text(
-          "새 아이디어 작성하기",
-          style: TextStyle(
+        title: Text(
+          widget.ideaInfo == null ? "새 아이디어 작성하기" : "아이디어 수정하기",
+          style: const TextStyle(
             color: Colors.black,
             fontSize: Sizes.size16,
           ),

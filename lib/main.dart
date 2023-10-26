@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:idea_note/data/db_class_info.dart';
+import 'package:idea_note/features/detail_screen/detail_screen.dart';
 import 'package:idea_note/features/main_screen/main_screen.dart';
 import 'package:idea_note/features/post_screen/edit_screen.dart';
 import 'package:idea_note/features/splash_screen/splash_screen.dart';
@@ -26,7 +27,6 @@ class MyNote extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
         MainScreen.routeName: (context) => const MainScreen(),
-        EditScreen.routeName: (context) => EditScreen(),
       },
       onGenerateRoute: (settings) {
         if (settings.name == "/edit") {
@@ -40,7 +40,17 @@ class MyNote extends StatelessWidget {
               );
             },
           );
+        } else if (settings.name == "/detail") {
+          final IdeaInfo? ideaInfo = settings.arguments as IdeaInfo?;
+          return MaterialPageRoute(
+            builder: (BuildContext context) {
+              return DetailScreen(
+                ideaInfo: ideaInfo,
+              );
+            },
+          );
         }
+        return null;
       },
     );
   }

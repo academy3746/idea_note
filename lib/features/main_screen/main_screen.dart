@@ -4,6 +4,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:idea_note/constants/sizes.dart';
 import 'package:idea_note/database/db_helper.dart';
+import 'package:idea_note/features/detail_screen/detail_screen.dart';
 import 'package:idea_note/features/post_screen/edit_screen.dart';
 import 'package:intl/intl.dart';
 import '../../data/db_class_info.dart';
@@ -66,7 +67,16 @@ class _MainScreenState extends State<MainScreen> {
         child: ListView.builder(
           itemCount: listIdeaInfo.length,
           itemBuilder: (BuildContext context, int index) {
-            return listItem(index);
+            return GestureDetector(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  DetailScreen.routeName,
+                  arguments: listIdeaInfo[index],
+                );
+              },
+              child: listItem(index),
+            );
           },
         ),
       ),
