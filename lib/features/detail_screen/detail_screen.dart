@@ -13,7 +13,7 @@ class DetailScreen extends StatelessWidget {
 
   IdeaInfo? ideaInfo;
 
-  final _dbHelper = DatabaseHelper();
+  final dbHelper = DatabaseHelper();
 
   DetailScreen({super.key, this.ideaInfo});
 
@@ -69,7 +69,7 @@ class DetailScreen extends StatelessWidget {
                           await _setDeleteIdeaInfo(ideaInfo!.id!);
                           if (context.mounted) {
                             Navigator.of(context).pop();
-                            Navigator.pop(context);
+                            Navigator.pop(context, 'delete');
                           }
                         },
                         child: const Text(
@@ -201,12 +201,18 @@ class DetailScreen extends StatelessWidget {
               ),
             ),
             GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
+              onTap: () async {
+                var result = await Navigator.pushNamed (
                   context,
                   EditScreen.routeName,
                   arguments: ideaInfo,
                 );
+
+                if (result != null) {
+                  if (context.mounted) {
+                    Navigator.pop(context, 'update');
+                  }
+                }
               },
               child: Container(
                 decoration: ShapeDecoration(
@@ -239,7 +245,7 @@ class DetailScreen extends StatelessWidget {
   }
 
   Future<void> _setDeleteIdeaInfo(int id) async {
-    await _dbHelper.initDataBase();
-    await _dbHelper.deleteDatabase(id);
+    await dbHelper.initDataBase();
+    await dbHelper.deleteDatabase(id);
   }
 }

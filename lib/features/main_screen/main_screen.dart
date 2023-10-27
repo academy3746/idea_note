@@ -34,8 +34,21 @@ class _MainScreenState extends State<MainScreen> {
     setState(() {});
   }
 
-  void _pushToEditScreen() {
-    Navigator.pushNamed(context, EditScreen.routeName);
+  Future<void> _pushToEditScreen() async {
+    var result = await Navigator.pushNamed(context, EditScreen.routeName);
+
+    if (result != null) {
+      _getIdeaInfo();
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("새로운 아이디어가 등록되었습니다!"),
+            duration: Duration(seconds: 3),
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -68,12 +81,36 @@ class _MainScreenState extends State<MainScreen> {
           itemCount: listIdeaInfo.length,
           itemBuilder: (BuildContext context, int index) {
             return GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(
+              onTap: () async {
+                var result = await Navigator.pushNamed(
                   context,
                   DetailScreen.routeName,
                   arguments: listIdeaInfo[index],
                 );
+
+                if (result != null) {
+                  String msg = "";
+
+                  if (result == "update") {
+                    // 게시글 수정 완료
+                    msg = "아이디어가 수정되었습니다!";
+                  } else if (result == "delete") {
+                    // 게시글 삭제 완료
+                    msg = "아이디어가 삭제되었습니다!";
+                  }
+
+                  // Refresh DB
+                  _getIdeaInfo();
+
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(msg),
+                        duration: const Duration(seconds: 3),
+                      ),
+                    );
+                  }
+                }
               },
               child: listItem(index),
             );

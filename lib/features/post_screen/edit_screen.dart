@@ -66,6 +66,11 @@ class _EditScreenState extends State<EditScreen> {
     await dbHelper.insertDatabase(ideaInfo);
   }
 
+  Future<void> _setUpdateIdeaInfo(IdeaInfo ideaInfo) async {
+    await dbHelper.initDataBase();
+    await dbHelper.updateDatabase(ideaInfo);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -509,8 +514,8 @@ class _EditScreenState extends State<EditScreen> {
                       return;
                     }
 
-                    // Data INSERT
                     if (widget.ideaInfo == null) {
+                      // Data INSERT
                       var ideaInfo = IdeaInfo(
                         title: titleValue,
                         motive: motiveValue,
@@ -523,7 +528,21 @@ class _EditScreenState extends State<EditScreen> {
                       await _setInsertIdeaInfo(ideaInfo);
 
                       if (mounted) {
-                        Navigator.pop(context);
+                        Navigator.pop(context, 'insert');
+                      }
+                    } else {
+                      // Data UPDATE
+                      var ideaInfoModify = widget.ideaInfo;
+                      ideaInfoModify?.title = titleValue;
+                      ideaInfoModify?.motive = motiveValue;
+                      ideaInfoModify?.content = contentValue;
+                      ideaInfoModify?.importance = importancePoint;
+                      ideaInfoModify?.feedBack = feedBackValue.isNotEmpty ? feedBackValue : "";
+
+                      await _setUpdateIdeaInfo(ideaInfoModify!);
+
+                      if (mounted) {
+                        Navigator.pop(context, 'update');
                       }
                     }
                   },
